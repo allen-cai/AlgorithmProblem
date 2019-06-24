@@ -70,10 +70,10 @@ public class AAndB {
 
         //calculate
         Integer len = aToBinaryString.length();
-
+        StringBuffer result = new StringBuffer();
         for (int i = 0; i < len; i++) {
-            a = Integer.parseInt(String.valueOf(aToBinaryString.indexOf(i)));
-            b = Integer.parseInt(String.valueOf(bToBinaryString.indexOf(i)));
+            a = Integer.parseInt(String.valueOf(aToBinaryString.charAt(i)));
+            b = Integer.parseInt(String.valueOf(bToBinaryString.charAt(i)));
             if (a == 1 && b == 1) {
                 tyP = 1;
             }
@@ -81,6 +81,9 @@ public class AAndB {
             if (c == 1 && tyP == 1) {
                 tyL = 1;
             }
+            c = c & tyP & tyL;
+            result.append(c);
         }
+        System.out.println("a+b=" + result);
     }
 }
