@@ -38,52 +38,50 @@ public class AAndB {
         int a = scanner.nextInt();
         System.out.println("请输入第二个数字b: ");
         int b = scanner.nextInt();
-
-        //convert to binary
-        String aToBinaryString = Integer.toBinaryString(a);
-        String bToBinaryString = Integer.toBinaryString(b);
-        System.out.println("a转换成二进制字符串为：" + aToBinaryString);
-        System.out.println("b转换成二进制字符串为：" + bToBinaryString);
-        Integer aLength = aToBinaryString.length();
-        Integer bLength = bToBinaryString.length();
-
-        //swallow the length
-        StringBuffer aNeedApend = new StringBuffer();
-        StringBuffer bNeedApend = new StringBuffer();
-
-        for (int i = 0; i < aLength; i++) {
-            bNeedApend.append("0");
-        }
-        for (int i = 0; i < bLength; i++) {
-            aNeedApend.append("0");
-        }
-
-        aToBinaryString = aNeedApend.append(aToBinaryString).toString();
-        bToBinaryString = bNeedApend.append(bToBinaryString).toString();
-
-        System.out.println("填充后的二进制数据a：" + aToBinaryString);
-        System.out.println("填充后的二进制数据b：" + bToBinaryString);
-
-        int tyP = 0;
-        int tyL = 0;
-        int c = 0;
-
-        //calculate
-        Integer len = aToBinaryString.length();
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < len; i++) {
-            a = Integer.parseInt(String.valueOf(aToBinaryString.charAt(i)));
-            b = Integer.parseInt(String.valueOf(bToBinaryString.charAt(i)));
-            if (a == 1 && b == 1) {
-                tyP = 1;
+        System.out.print(a + " + " + b + " = ");
+        AAndB aAndB = new AAndB();
+        int toInt = aAndB.aplusb(a, b);
+        System.out.println(toInt);
+    }
+    /*
+     * param a: The first integer
+     * param b: The second integer
+     * return: The sum of a and b
+     */
+    public int aplusb(int a, int b) {
+        // write your code here, try to do it without arithmetic operators.
+        int sum = 0 ;
+        int carry = 0;
+        for(int i = 0;i< 32 ;i++){
+            int a1 = a & 1;
+            int b1 = b & 1;
+            int val = 0 ;
+            if(a1 == 0 && b1 == 0 && carry == 0){
+                val = 0;
+                carry = 0;
+            }else if(a1 == 1 && b1 == 1 && carry == 1){
+                val = 1;
+                carry = 1;
+            }else if(a1==0 && b1 ==0 || a1 ==0 && carry ==0 || b1 ==0 && carry ==0){
+                val = 1;
+                carry = 0;
+            }else{
+                val = 0;
+                carry = 1;
             }
-            c = a & b;
-            if (c == 1 && tyP == 1) {
-                tyL = 1;
-            }
-            c = c & tyP & tyL;
-            result.append(c);
+            val = val << i;
+            sum = sum | val;
+            a = a >> 1;
+            b = b >> 1;
         }
-        System.out.println("a+b=" + result);
+        return sum;
+    }
+
+    public int aplusb2(int a, int b) {
+        // write your code here, try to do it without arithmetic operators.
+        if(b==0) {
+            return a;
+        }
+        return aplusb( a ^ b,(a&b)<<1);
     }
 }
